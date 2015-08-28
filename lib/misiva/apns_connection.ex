@@ -10,8 +10,8 @@ defmodule Misiva.ApnsConnection do
   	:ssl.connect(address,port,options,timeout)
 	end
 
-	def send(socket, token, message) do		
-		payload = "{\"aps\":{\"alert\":\"#{message}\"}}"    
+	def send(socket, token, message) do
+		payload = Misiva.ApnsMessage.as_json message		
 		message_length = byte_size payload
     tkn = Base.decode16!(token, case: :mixed)    
     packet = <<0 :: size(8), 32 :: size(16), tkn :: binary, message_length :: size(16), payload :: binary >>

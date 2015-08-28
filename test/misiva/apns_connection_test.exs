@@ -8,9 +8,5 @@ defmodule Misiva.ApnsConnectionTest do
   test "development gateway url" do
     assert Misiva.ApnsConnection.server_url(:development) == "gateway.sandbox.push.apple.com"
   end
-
-  test "suma" do 
-  	assert Misiva.ApnsConnection.suma == 1
-  end
-
+  
 end
