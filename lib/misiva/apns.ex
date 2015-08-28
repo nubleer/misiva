@@ -14,8 +14,8 @@ defmodule Misiva.Apns do
   
 
   ## Server Callbacks  
-  def init({certpath, keypath}) do
-  	case Misiva.ApnsConnection.connect(:production, {certpath, keypath}) do 
+  def init({env, certpath, keypath}) do
+  	case Misiva.ApnsConnection.connect(env, {certpath, keypath}) do 
   		{:ok, socket} ->  					  		
   			{:ok, %State{socket: socket, certpath: certpath, keypath: keypath}}
   		{:error, reason} ->
@@ -23,16 +23,16 @@ defmodule Misiva.Apns do
   	end   
   end
 
-  def init({certpath, keypath, callback_pid}) do
-  	case Misiva.ApnsConnection.connect(:production, {certpath, keypath}) do 
-  		{:ok, socket} ->  					  		
-  			{:ok, %State{socket: socket, certpath: certpath, keypath: keypath, callback_pid: callback_pid}}
-  		{:error, reason} ->
-  			{:error, reason}
-  	end   
-  end
+  # def init({certpath, keypath, callback_pid}) do
+  # 	case Misiva.ApnsConnection.connect(:production, {certpath, keypath}) do 
+  # 		{:ok, socket} ->  					  		
+  # 			{:ok, %State{socket: socket, certpath: certpath, keypath: keypath, callback_pid: callback_pid}}
+  # 		{:error, reason} ->
+  # 			{:error, reason}
+  # 	end   
+  # end
 
-  def send(pid, token, message) do   	
+  def send(pid, token, message) do
   	:gen_server.cast(pid, {:send, token, message})  	
   end
  

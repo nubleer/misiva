@@ -9,7 +9,9 @@ defmodule Misiva do
   	Misiva.Supervisor.connect(opts)
 	end
 
-	
+	def send(pid, token, message) do
+		Misiva.Apns.send(pid, token, message)
+	end
 
 
 end
