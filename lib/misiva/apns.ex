@@ -1,5 +1,6 @@
 defmodule Misiva.Apns do
   use GenServer
+  require Logger
 
   defmodule State do
      defstruct socket: nil, certpath: nil, keypath: nil, callback_pid: nil
@@ -10,6 +11,20 @@ defmodule Misiva.Apns do
   """
   def start_link(state, opts) do
     GenServer.start_link(__MODULE__, opts)
+  end
+
+  @doc """
+  Sends the given ApnsMessage to the device identified by the token
+  """
+  def send(pid, token, message) do
+    :gen_server.cast(pid, {:send, token, message})
+  end
+
+  @doc """
+  Stops the Apns server and closes the SSL connections to Apple servers
+  """
+  def stop(pid) do
+    :gen_server.call(pid, :close_ssl)
   end
 
   ## Server Callbacks  
@@ -30,14 +45,15 @@ defmodule Misiva.Apns do
         {:error, reason}
     end
   end
-
-  def send(pid, token, message) do
-    :gen_server.cast(pid, {:send, token, message})
-  end
  
   def handle_cast({:send, token, message}, state) do
-    r = Misiva.ApnsConnection.send(state.socket, token, message)
-    send state.callback_pid, r
+    Misiva.ApnsConnection.send(state.socket, token, message)
+#send state.callback_pid, r
     {:noreply, state}
+  end
+
+  def handle_call(:close_ssl, _, state) do
+    Misiva.ApnsConnection.close(state.socket)
+    {:stop, :normal, :shutdown_ok, state}
   end
 end

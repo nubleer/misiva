@@ -23,11 +23,15 @@ defmodule Misiva.ApnsConnection do
     end
   end
 
-  def server_url(:production) do
+  def close(socket) do
+    :ssl.close(socket)
+  end
+  
+  defp server_url(:production) do
     "gateway.push.apple.com"
   end
 
-  def server_url(:development) do
+  defp server_url(:development) do
     "gateway.sandbox.push.apple.com"
   end
 
