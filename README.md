@@ -17,6 +17,11 @@ Misiva.send apns,
  "f6af6af6af6af6af6af6af6af6af6af6af6af6af6af6af6af6af6af6af6af6aa", %Misiva.ApnsMessage{alert: "Hi from Misiva"}
 ```
 
+Finally, once you finish sending the messages, call the *close* method to close the connection to the Apple server:
+```elixir
+Misiva.close apns
+```
+
 ## Certificate creation
 The certificates should be in *PEM* format. You can extract them from a *.p12* certificate file:
 
