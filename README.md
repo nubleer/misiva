@@ -1,16 +1,16 @@
 Misiva
 ======
 
-Misiva is an Elixir/OTP application that sends push notifications to Apple iOS apps.
+Misiva is an Elixir/OTP application that sends push notifications (using the Apple Push Notification Service) to iOS apps.
 
 ## How to use it
-You create a connection passing the Push notification Certificate path and the path to the Push notification key, as well as an atom to identify the environment (:development or :production):
+- Create a connection passing the Push notification Certificate path, the path to the Push notification key, and an atom to identify the environment (:development or :production):
 
 ```elixir
 {:ok, apns} = Misiva.connect {:production, "/etc/certificates/cert.pem", "/etc/certificates/key.pem"}
 ```
 
-With that connection, you can send notifications using the *send* method:
+- Using that connection, you can send notifications using the *send* method. You can send and alert, a sound and a badge number
 
 ```elixir
 Misiva.send apns,
