@@ -1,13 +1,13 @@
 defmodule Misiva.Supervisor do
-	use Supervisor
+  use Supervisor
 
-	def start_link do 
+  def start_link do 
     Supervisor.start_link(__MODULE__, nil, name: :misiva_supervisor)
   end
   
-	def connect(opts) do
-  	Supervisor.start_child(:misiva_supervisor, [opts])
-  end  
+  def connect(opts) do
+    Supervisor.start_child(:misiva_supervisor, [opts])
+  end
 
   def init(opts) do
     children = [

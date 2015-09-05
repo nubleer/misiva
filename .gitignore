@@ -3,4 +3,6 @@
 erl_crash.dump
 *.ez
 ebin
+.swp
+*.swp
 
